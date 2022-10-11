@@ -203,6 +203,9 @@ class AudioStreamEngine: AudioEngine {
     }
     
     private func pollForNextBufferRecursive() {
+        if(!converter.initialized) {
+            return
+        }
         do {
             var nextScheduledBuffer: AVAudioPCMBuffer! = try converter.pullBuffer()
             numberOfBuffersScheduledFromPoll += 1

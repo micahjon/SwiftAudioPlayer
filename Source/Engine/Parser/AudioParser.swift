@@ -97,7 +97,7 @@ class AudioParser: AudioParsable {
         let predictedCount = AVAudioPacketCount(Double(sizeOfFileInBytes) / bytesPerPacket)
         
         guard networkProgress != 1.0 else {
-            return max(AVAudioPacketCount(audioPackets.count), predictedCount)
+            return min(AVAudioPacketCount(audioPackets.count), predictedCount)
         }
         
         return predictedCount
