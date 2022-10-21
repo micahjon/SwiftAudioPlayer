@@ -121,6 +121,16 @@ extension FileStorage {
             }
             return nil
         }
+
+        static func getAllStoredURLs() -> [URL] {
+            let folderUrls = FileManager.default.urls(for: directory, in: .userDomainMask)
+            guard folderUrls.count != 0 else { return [] }
+
+            if let urls = try? FileManager.default.contentsOfDirectory(at: folderUrls[0], includingPropertiesForKeys: nil) {
+                return urls;
+            }
+            return []
+        }
         
         static func getUrl(givenId id: ID, andFileExtension fileExtension: String) -> URL {
             let url = FileStorage.getUrl(givenAName: getAudioFileName(id, fileExtension: fileExtension), inDirectory: directory)

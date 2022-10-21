@@ -81,6 +81,25 @@ extension SAPlayer {
         public static func isDownloaded(withRemoteUrl url: URL) -> Bool {
             return AudioDataManager.shared.getPersistedUrl(withRemoteURL: url) != nil
         }
+
+        /**
+         Get key/id for a given URL
+         
+         - Parameter url: The remote url corresponding to an audio file
+         - Returns: The filename where this audio file would be stored
+         */
+        public static func getUrlKey(url: URL) -> String {
+            return AudioDataManager.shared.getUrlKey(url: url);
+        }
+        
+        /**
+         Get all downloaded URLs on device
+         
+         - Returns: All downloaded URLs on device
+         */
+        public static func getAllStoredURLs() -> [URL] {
+            return AudioDataManager.shared.getAllStoredURLs();
+        }
         
         /**
          Get url of audio file downloaded from remote url onto on device if it exists.
