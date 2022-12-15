@@ -1,5 +1,15 @@
 # SwiftAudioPlayer
 
+**Temporary fork of [tanhakabir/SwiftAudioPlayer](tanhakabir/SwiftAudioPlayer)** with the following changes:
+- Fix iOS 16 crash - merge [PR #175 (Kuama-IT:fix-ios-16-crash)](https://github.com/tanhakabir/SwiftAudioPlayer/pull/175)
+- Fix duration while streaming - merge [PR #155 HKdAlex:SwiftAudioPlayer:master](https://github.com/tanhakabir/SwiftAudioPlayer/pull/155)
+- Fix skip backwards - merge [PR #179 (pietrorea:handleSkipBackward)](https://github.com/tanhakabir/SwiftAudioPlayer/pull/179)
+- Add a helper function for getting URLs of all saved audio files
+
+Used by the [Adblock Podcast iOS app](https://www.adblockpodcast.com/) (coming to the app store soon).
+
+---
+
 [![Version](https://img.shields.io/cocoapods/v/SwiftAudioPlayer.svg?style=flat)](https://cocoapods.org/pods/SwiftAudioPlayer)
 [![License](https://img.shields.io/cocoapods/l/SwiftAudioPlayer.svg?style=flat)](https://cocoapods.org/pods/SwiftAudioPlayer)
 [![Platform](https://img.shields.io/cocoapods/p/SwiftAudioPlayer.svg?style=flat)](https://cocoapods.org/pods/SwiftAudioPlayer)
