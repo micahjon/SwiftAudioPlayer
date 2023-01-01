@@ -176,8 +176,33 @@ extension AudioDownloadWorker: URLSessionDownloadDelegate {
             Log.monitor("No file type exists for file from downloading.. id: \(downloadTask.taskDescription ?? "nil") :: url: \(task.info.remoteUrl) where it suggested filename: \(downloadTask.response?.suggestedFilename ?? "nil")")
             return
         }
-        
+
+        let statusCode = (downloadTask.response as? HTTPURLResponse)?.statusCode ?? 0
         let destinationUrl = FileStorage.Audio.getUrl(givenId: task.info.id, andFileExtension: fileType)
+        
+        // Handle case where server responds with an error (instead of an audio file)
+        guard 200...399 ~= statusCode else {
+            Log.warn("Got status = \(statusCode.stringValue) response when attempting to download file: \(downloadTask.response?.url?.absoluteString ?? String(describing:downloadTask.response))")
+            
+            // Let completion handlers know that it failed
+            let error = NSError(domain: "", code: statusCode, userInfo:["Download failed": statusCode])
+            completionHandler(task.info.id, error)
+        
+            for handler in task.info.completionHandlers {
+                handler(destinationUrl, error)
+            }
+            
+            // Clear from queue
+            activeDownloads = activeDownloads.filter { $0 != task }
+            
+            // Process next download
+            if let queued = queuedDownloads.popHighestRanked() {
+                start(withInfo: queued)
+            }
+            
+            return
+        }
+        
         Log.info("Writing download file with id: \(task.info.id) to file named: \(destinationUrl.lastPathComponent)")
         
         // https://stackoverflow.com/questions/20251432/cant-move-file-after-background-download-no-such-file
@@ -379,5 +404,11 @@ extension String {
         let cleaned = self.replacingOccurrences(of: " ", with: "_")
         let ext = URL(string: cleaned)?.pathExtension
         return ext == "" ? nil : ext
+    }
+}
+
+extension Int {
+    var stringValue:String {
+        return "\(self)"
     }
 }
