@@ -1,10 +1,13 @@
 # SwiftAudioPlayer
 
 **Temporary fork of [tanhakabir/SwiftAudioPlayer](tanhakabir/SwiftAudioPlayer)** with the following changes:
+
 - Fix iOS 16 crash - merge [PR #175 (Kuama-IT:fix-ios-16-crash)](https://github.com/tanhakabir/SwiftAudioPlayer/pull/175)
 - Fix duration while streaming - merge [PR #155 HKdAlex:SwiftAudioPlayer:master](https://github.com/tanhakabir/SwiftAudioPlayer/pull/155)
 - Fix skip backwards - merge [PR #179 (pietrorea:handleSkipBackward)](https://github.com/tanhakabir/SwiftAudioPlayer/pull/179)
 - Add a helper function for getting URLs of all saved audio files
+- Handle audio download failures (status code >= 400, e.g. 404)
+- Handle earbuds: play/pause command and treat prev/next track as skip back/forward - merge [PR #2 (TheLoombot:togglePlayPauseCommand)](https://github.com/pietrorea/SwiftAudioPlayer/pull/2)
 
 Used by the [Adblock Podcast iOS app](https://www.adblockpodcast.com/) (coming to the app store soon).
 

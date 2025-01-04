@@ -128,6 +128,21 @@ public extension LockScreenViewProtocol {
             
             return .commandFailed
         }
+
+        // Add handler for togglePlayPauseCommand, as sent by Earpods wired headphones
+        commandCenter.togglePlayPauseCommand.addTarget { [weak presenter] event in
+            guard let presenter = presenter else {
+                return .commandFailed
+            }
+            
+            if presenter.getIsPlaying() {
+                presenter.handlePause()
+                return .success
+            } else {
+                presenter.handlePlay()
+                return .success
+            }
+        }
         
         commandCenter.skipBackwardCommand.preferredIntervals = [skipBackwardSeconds] as [NSNumber]
         commandCenter.skipForwardCommand.preferredIntervals = [skipForwardSeconds] as [NSNumber]
@@ -141,6 +156,24 @@ public extension LockScreenViewProtocol {
         }
         
         commandCenter.skipForwardCommand.addTarget { [weak presenter] event in
+            guard let presenter = presenter else {
+                return .commandFailed
+            }
+            presenter.handleSkipForward()
+            return .success
+        }
+
+        // Handle previous/next track commands same as skip back/fwd requests
+        // Apple Earpods (wired headphones) send these commands
+        commandCenter.previousTrackCommand.addTarget { [weak presenter] event in
+            guard let presenter = presenter else {
+                return .commandFailed
+            }
+            presenter.handleSkipBackward()
+            return .success
+        }
+        
+        commandCenter.nextTrackCommand.addTarget { [weak presenter] event in
             guard let presenter = presenter else {
                 return .commandFailed
             }
